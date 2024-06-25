@@ -32,6 +32,8 @@ jobs:
         run: |
           cd C:\ab
 
+          dir
+
           set archINI=1
           set license2INI=1
           set standaloneINI=1
