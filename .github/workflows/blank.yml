@@ -39,7 +39,9 @@ jobs:
 
           mkdir .ccache
 
-          Copy-Item -Path ".ccache" -Destination "msys64/home/$env:USERNAME/.ccache" -Recurse
+          mkdir "C:\ab\msys64/home/$env:USERNAME/.ccache"
+
+          Copy-Item -Path ".ccache" -Destination "C:\ab\msys64/home/$env:USERNAME/.ccache" -Recurse
 
       - shell: cmd
         run: |
