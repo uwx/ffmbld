@@ -25,12 +25,22 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      - shell: cmd
-        run: |
+      - name: Cache
+        id: ccache
+        uses: actions/cache@v4
+        with:
+          path: .ccache
+          key: ${{ runner.os }}-ccache
+      
+      - run: |
           mkdir C:\ab
 
           git clone https://github.com/m-ab-s/media-autobuild_suite C:\ab
 
+          Copy-Item -Path ".ccache" -Destination "msys64/home/$env:USERNAME/.ccache" -Recurse
+
+      - shell: cmd
+        run: |
           cd /d C:\ab
 
           dir
@@ -90,7 +100,7 @@ jobs:
           set timeStampINI=1
           
           :: TODO
-          set ccacheINI=0
+          set ccacheINI=1
           
           :: TODO
           set noMinttyINI=1
@@ -104,9 +114,9 @@ jobs:
           compression-level: 9 # maximum compression
 
       # local[32|64]\bin-(audio|global|video)
-      - run: Copy-Item -Path "C:\ab\local32" -Destination "$GITHUB_WORKSPACE\32" -Recurse
+      - run: Copy-Item -Path "C:\ab\local32" -Destination "$env:GITHUB_WORKSPACE\32" -Recurse
         if: always()
-      - run: Copy-Item -Path "C:\ab\local64" -Destination "$GITHUB_WORKSPACE\64" -Recurse
+      - run: Copy-Item -Path "C:\ab\local64" -Destination "$env:GITHUB_WORKSPACE\64" -Recurse
         if: always()
 
       - uses: actions/upload-artifact@v4
@@ -129,3 +139,6 @@ jobs:
           path: "{{ env.GITHUB_WORKSPACE }}\\32"
           name: workspace-32
           compression-level: 9 # maximum compression
+
+      - run: |
+          Copy-Item -Path "msys64/home/$env:USERNAME/.ccache" -Destination "$env:GITHUB_WORKSPACE/.ccache" -Recurse
