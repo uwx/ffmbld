@@ -31,7 +31,7 @@ jobs:
 
           git clone https://github.com/m-ab-s/media-autobuild_suite C:\ab
 
-          cd C:\ab
+          cd /d C:\ab
 
           dir
 
