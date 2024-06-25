@@ -31,11 +31,13 @@ jobs:
         with:
           path: .ccache
           key: ${{ runner.os }}-ccache
-      
+
       - run: |
           mkdir C:\ab
 
           git clone https://github.com/m-ab-s/media-autobuild_suite C:\ab
+
+          mkdir .ccache
 
           Copy-Item -Path ".ccache" -Destination "msys64/home/$env:USERNAME/.ccache" -Recurse
 
