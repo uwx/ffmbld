@@ -1,0 +1,128 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      - run: |
+          git clone https://github.com/m-ab-s/media-autobuild_suite C:\ab
+
+      - shell: cmd
+        run: |
+          cd C:\ab
+
+          set archINI=1
+          set license2INI=1
+          set standaloneINI=1
+          set vpx2INI=1
+          set aomINI=1
+          set rav1eINI=1
+          set dav1dINI=1
+          set libavifINI=1
+          set jpegxlINI=1
+          set x2643INI=4
+          set x2652INI=1
+          set other265INI=1
+          set svthevcINI=1
+          set xvcINI=1
+          set vvcINI=1
+          set uvg266INI=1
+          set vvencINI=1
+          set vvdecINI=1
+          set svtav1INI=1
+          set svtvp9INI=1
+          set flacINI=1
+          set fdkaacINI=1
+          set faacINI=1
+          set exhaleINI=1
+          set mediainfoINI=1
+          set soxBINI=1
+          set ffmpegB2INI=1
+          set ffmpegUpdateINI=1
+          set ffmpegChoiceINI=4
+          set mp4boxINI=1
+          set rtmpdumpINI=1
+          set mplayer2INI=2
+          set mpvINI=1
+          set vlcINI=2
+          set bmxINI=1
+          set curlINI=1
+          set ffmbcINI=2
+          set cyanrip2INI=1
+          set ripgrepINI=1
+          set jqINI=1
+          set joINI=1
+          set dssimINI=1
+          set avs2INI=1
+          set dovitoolINI=1
+          set hdr10plustoolINI=1
+          set CCINI=1
+          set coresINI=%NUMBER_OF_PROCESSORS%
+          set deleteSourceINI=2
+          set stripINI=1
+          set packINI=2
+          set loggingINI=1
+          set updateSuiteINI=2
+          set timeStampINI=1
+          
+          :: TODO
+          set ccacheINI=0
+          
+          :: TODO
+          set noMinttyINI=1
+
+          media-autobuild_suite.bat
+
+      - uses: actions/upload-artifact@v4
+        with:
+          path: 'C:\ab'
+          name: 'cdrive'
+          compression-level: 9 # maximum compression
+
+      # local[32|64]\bin-(audio|global|video)
+      - run: Copy-Item -Path "C:\ab\local32" -Destination "$GITHUB_WORKSPACE\32" -Recurse
+        if: always()
+      - run: Copy-Item -Path "C:\ab\local64" -Destination "$GITHUB_WORKSPACE\64" -Recurse
+        if: always()
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          path: "{{ env.GITHUB_WORKSPACE }}"
+          name: workspace
+          compression-level: 9 # maximum compression
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          path: "{{ env.GITHUB_WORKSPACE }}\\64"
+          name: workspace-64
+          compression-level: 9 # maximum compression
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          path: "{{ env.GITHUB_WORKSPACE }}\\32"
+          name: workspace-32
+          compression-level: 9 # maximum compression
