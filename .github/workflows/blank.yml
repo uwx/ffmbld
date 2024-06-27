@@ -51,7 +51,7 @@ jobs:
 
           set archINI=1
           set license2INI=1
-          set standaloneINI=1
+          set standaloneINI=2
           set vpx2INI=1
           set aomINI=1
           set rav1eINI=1
@@ -72,34 +72,34 @@ jobs:
           set flacINI=1
           set fdkaacINI=1
           set faacINI=1
-          set exhaleINI=1
-          set mediainfoINI=1
-          set soxBINI=1
+          set exhaleINI=2
+          set mediainfoINI=2
+          set soxBINI=2
           set ffmpegB2INI=1
           set ffmpegUpdateINI=1
           set ffmpegChoiceINI=4
-          set mp4boxINI=1
-          set rtmpdumpINI=1
+          set mp4boxINI=2
+          set rtmpdumpINI=2
           set mplayer2INI=2
-          set mpvINI=1
+          set mpvINI=2
           set vlcINI=2
-          set bmxINI=1
+          set bmxINI=2
           set curlINI=1
           set ffmbcINI=2
-          set cyanrip2INI=1
-          set ripgrepINI=1
-          set jqINI=1
-          set joINI=1
-          set dssimINI=1
+          set cyanrip2INI=2
+          set ripgrepINI=2
+          set jqINI=2
+          set joINI=2
+          set dssimINI=2
           set avs2INI=1
-          set dovitoolINI=1
-          set hdr10plustoolINI=1
+          set dovitoolINI=2
+          set hdr10plustoolINI=2
           set CCINI=1
           set coresINI=%NUMBER_OF_PROCESSORS%
           set deleteSourceINI=2
           set stripINI=1
           set packINI=2
-          set loggingINI=1
+          set loggingINI=2
           set updateSuiteINI=2
           set timeStampINI=1
           
@@ -112,6 +112,7 @@ jobs:
           media-autobuild_suite.bat
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           path: 'C:\ab'
           name: 'cdrive'
